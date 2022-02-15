@@ -35,7 +35,7 @@ let sndCoin;
 // mouse
 //------------------------------------------------------------------------------------------
 
-function mousePressed()
+function start()
 {
   for ( let i=0; i<area.length; i++ )
   {
@@ -58,9 +58,9 @@ function keyPressed()
 {  
   switch( key )
   {
-  case 's':
+  case ' ':
     console.log("start");
-    mousePressed();
+    start();
     break;
   }
   
