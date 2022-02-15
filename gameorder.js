@@ -58,7 +58,7 @@ function keyPressed()
 {  
   switch( key )
   {
-  case ' ':
+  case 's':
     console.log("start");
     mousePressed();
     break;
