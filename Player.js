@@ -343,11 +343,10 @@ class Player
       {
         bgm.stop();
         metro.stop();
-        if( current_area.index == 3 )
+        if ( current_area.index == 3 )
         {
           metro.loop();
-        }
-        else
+        } else
         {
           bgm.loop();
         }
@@ -380,11 +379,10 @@ class Player
       {
         bgm.stop();
         metro.stop();
-        if( current_area.index == 3 )
+        if ( current_area.index == 3 )
         {
           metro.loop();
-        }
-        else
+        } else
         {
           bgm.loop();
         }
@@ -417,11 +415,10 @@ class Player
       {
         bgm.stop();
         metro.stop();
-        if( current_area.index == 3 )
+        if ( current_area.index == 3 )
         {
           metro.loop();
-        }
-        else
+        } else
         {
           bgm.loop();
         }
@@ -454,11 +451,10 @@ class Player
       {
         bgm.stop();
         metro.stop();
-        if( current_area.index == 3 )
+        if ( current_area.index == 3 )
         {
           metro.loop();
-        }
-        else
+        } else
         {
           bgm.loop();
         }
@@ -506,7 +502,7 @@ class Player
               this.sx = 0;
               this.sy = 0;
               this.ax = 0;
-              this.ay = 0;              
+              this.ay = 0;
             }
           }
         }
@@ -618,7 +614,15 @@ class Player
       if ( this.goal_timer >= 30*20 )
       {
         this.goal_timer = 0;
-        this.reset();
+
+        for ( let i=0; i<area.length; i++ )
+        {
+          area[i].g_Player.reset();
+        }
+        current_area = area[0];
+        current_area.computeTrans();
+        pfocusx = focusx;
+        pfocusy = focusy;
 
         g_bPlay = false;
       }
@@ -640,11 +644,15 @@ class Player
         metro.stop();
         sndMiss.stop();
         sndMiss.play();
-        //delay( 5000 );
 
-        this.reset();
-        g_bPlay = false;
-
+        this.goal = true;
+        /*
+        delay( 5000 );
+         
+         this.reset();
+         current_area = area[0];
+         g_bPlay = false;
+         */
         return;
       }
     }

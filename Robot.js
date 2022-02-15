@@ -27,13 +27,13 @@ class Robot
     this.y = this.sy;
   }
 
-  draw()
-  {    
-    if( this.area != current_area )
+  update()
+  {
+    if ( this.area != current_area )
     {
       this.area.g_Player.x = this.area.g_Player.START_X;
     }
-    
+
     //console.log( this.area.g_Player.x, this.area.g_currentStage.pipeMinX, this.area.g_currentStage.pipeMaxX);
     let mx = 0;
     mx = map( this.area.g_Player.x, 
@@ -59,7 +59,10 @@ class Robot
     {
       this.x += this.SPEED;
     }
+  }
 
+  draw()
+  {    
     image( this.img, this.x, this.y );
   }
 }

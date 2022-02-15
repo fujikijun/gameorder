@@ -22,7 +22,7 @@ class Area
     this.y3 = 343;
     this.w3 = 278;
     this.h3 = 164;
-    
+
     this.robot = null;
   }
 
@@ -35,6 +35,83 @@ class Area
     this.g_Player.setup();
     this.pg = createGraphics( this.g_currentStage.m_iMapWidth*BASE_SPRITE_SIZE, this.g_currentStage.m_iMapHeight*BASE_SPRITE_SIZE );
     this.pg.smooth();
+  }
+
+  computeTrans()
+  {
+    pfocusx = focusx;
+    pfocusy = focusy;
+
+    if ( !this.move )
+    {            
+      if ( this.g_Player.x < this.pg.width/3 )
+      {
+        let sx = float(this.w1)/float(this.pg.width/3);
+        let sy = float(this.h1)/float(this.pg.height);
+        focusx = -(this.x1+this.g_Player.x*sx);
+        focusy = -(this.y1+this.g_Player.y*sy);
+      } else if ( this.g_Player.x < this.pg.width/3*2 )
+      {
+        let sx = float(this.w2)/float(this.pg.width/3);
+        let sy = float(this.h2)/float(this.pg.height);
+        focusx = -(this.x2+(this.g_Player.x-this.pg.width/3)*sx);
+        focusy = -(this.y2+this.g_Player.y*sy);
+      } else
+      {
+        let sx = float(this.w3)/float(this.pg.width/3);
+        let sy = float(this.h3)/float(this.pg.height);
+        focusx = -(this.x3+(this.g_Player.x-this.pg.width/3*2)*sx);
+        focusy = -(this.y3+this.g_Player.y*sy);
+      }
+    } else
+    {
+      let sx = float(this.w1)/float(this.pg.width);
+      let sy = float(this.h1)/float(this.pg.height);
+      focusx = -(this.x1+this.g_Player.x*sx + this.robot.x);
+      focusy = -(this.y1+this.g_Player.y*sy + this.robot.y);
+    }
+  }
+
+  trans()
+  {
+    /*
+    if ( !this.move )
+     {            
+     if ( this.g_Player.x < this.pg.width/3 )
+     {
+     let sx = float(this.w1)/float(this.pg.width/3);
+     let sy = float(this.h1)/float(this.pg.height);
+     //translate( -(this.x1+this.g_Player.x*sx), -(this.y1+this.g_Player.y*sy) );
+     } else if ( this.g_Player.x < this.pg.width/3*2 )
+     {
+     let sx = float(this.w2)/float(this.pg.width/3);
+     let sy = float(this.h2)/float(this.pg.height);
+     //translate( -(this.x2+(this.g_Player.x-this.pg.width/3)*sx), -(this.y2+this.g_Player.y*sy) );
+     } else
+     {
+     let sx = float(this.w3)/float(this.pg.width/3);
+     let sy = float(this.h3)/float(this.pg.height);
+     //translate( -(this.x3+(this.g_Player.x-this.pg.width/3*2)*sx), -(this.y3+this.g_Player.y*sy) );
+     }
+     } else
+     {
+     let sx = float(this.w1)/float(this.pg.width);
+     let sy = float(this.h1)/float(this.pg.height);
+     //translate( -(this.x1+this.g_Player.x*sx + this.robot.x), -(this.y1+this.g_Player.y*sy + this.robot.y) );
+     }*/
+
+    let t = 0.5;
+    focusx = focusx*t + pfocusx*(1.0-t);
+    focusy = focusy*t + pfocusy*(1.0-t);
+    translate( focusx, focusy );
+  }
+
+  update()
+  { 
+    if ( this.robot != null )
+    {
+      this.robot.update();
+    }
   }
 
   draw()
@@ -75,7 +152,7 @@ class Area
       image( this.pg, this.x3, this.y3, this.w3, this.h3, this.pg.width/3*2, 0, this.pg.width/3, this.pg.height );
     } else
     {
-      if( this.robot != null )
+      if ( this.robot != null )
       {
         this.robot.draw();
       }

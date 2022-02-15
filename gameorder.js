@@ -31,6 +31,13 @@ let sndMiss;
 let sndGoal;
 let sndCoin;
 
+let mode = 0;
+
+let focusx = 0;
+let focusy = 0;
+let pfocusx = 0;
+let pfocusy = 0;
+
 //------------------------------------------------------------------------------------------
 // mouse
 //------------------------------------------------------------------------------------------
@@ -59,13 +66,21 @@ function keyPressed()
   switch( key )
   {
   case ' ':
-    console.log("start");
-    start();
+    if ( mode == 0 )
+    {
+      mode = 1;
+    } else
+    {
+      mode = 0;
+    }
     break;
   }
-  
+
   switch( keyCode )
   {
+  case ENTER:
+    start();
+    break;
   case RIGHT_ARROW:
     right = true;
     break;
@@ -179,7 +194,7 @@ function setup()
   area[0].x2 = 383;
   area[0].y2 = 368;
   area[0].w2 = 277;
-  area[0].h2 = 173; 
+  area[0].h2 = 174; 
 
   area[0].x3 = 673;
   area[0].y3 = 368;
@@ -215,6 +230,11 @@ function setup()
   area[3].h1 = 157;
 
   current_area = area[0];
+  current_area.computeTrans();
+  pfocusx = focusx;
+  pfocusy = focusy;
+
+  frameRate( 30 );
 }
 
 function draw()
@@ -232,19 +252,46 @@ function draw()
     s = sh;
   }
 
-  push();
-
-  //translate( -width/2, -height/2 );
-  translate( (float(width)-float(imgBack.width)*s)*0.5, (float(height)-float(imgBack.height)*s)*0.5 );
-  scale( s, s );
-
-  image( imgBack, 0, 0 );
   for ( let i=0; i<area.length; i++ )
   {
-    area[i].draw();
+    area[i].update();
+  }
+  if ( !current_area.g_Player.goal )
+  {
+    current_area.computeTrans();
   }
 
-  pop();
+  if ( mode == 0 )
+  {
+    push();
+
+    translate( (float(width)-float(imgBack.width)*s)*0.5, (float(height)-float(imgBack.height)*s)*0.5 );
+    scale( s, s );
+
+    image( imgBack, 0, 0 );
+    for ( let i=0; i<area.length; i++ )
+    {
+      area[i].draw();
+    }
+
+    pop();
+  } else
+  {
+    push();
+
+    translate( float(width)*0.5, float(height)*0.5 );
+    scale( s*3, s*3 );
+
+    current_area.trans();     
+
+    image( imgBack, 0, 0 );
+    for ( let i=0; i<area.length; i++ )
+    {
+      area[i].draw();
+    }
+
+    pop();
+  }
 }
 
 function windowResized() 
