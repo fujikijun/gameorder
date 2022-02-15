@@ -56,13 +56,13 @@ function mousePressed()
 
 function keyPressed()
 {  
-  /*
   switch( key )
   {
   case ' ':
+    console.log("start");
     mousePressed();
     break;
-  }*/
+  }
   
   switch( keyCode )
   {
