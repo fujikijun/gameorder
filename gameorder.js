@@ -30,6 +30,7 @@ let sndPipe;
 let sndMiss;
 let sndGoal;
 let sndCoin;
+let sndRobot;
 
 let mode = 0;
 
@@ -139,6 +140,7 @@ function preload()
   sndMiss = loadSound( 'data/miss.wav' );
   sndGoal = loadSound( 'data/goal.wav' );
   sndCoin = loadSound( 'data/coin.wav' );
+  sndRobot = loadSound( 'data/robot.wav' );
 }
 
 function setup()

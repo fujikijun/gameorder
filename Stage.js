@@ -34,6 +34,9 @@ class Stage
     this.g_imgTitle = loadImage( "data/title.png" );
     
     this.g_vecCoin = null;
+    
+    this.pgFront = null;
+    this.pgBack = null;
   }
 
   //----------------------------------------------------------------------------------------
@@ -210,8 +213,52 @@ class Stage
       this.pipeMinX = MaxX;
       this.pipeMaxX = MinX;
     }
+    
+    this.make();
   }
 
+  //----------------------------------------------------------------------------------------
+  // make
+  //----------------------------------------------------------------------------------------
+
+  make()
+  {    
+    {
+      this.pgFront = createGraphics( this.m_iMapWidth*BASE_SPRITE_SIZE, this.m_iMapHeight*BASE_SPRITE_SIZE );
+      
+      for ( let _y=0; _y<this.m_iMapHeight; _y++ )
+      {
+        for ( let _x=0; _x<this.m_iMapWidth; _x++ )
+        {
+          if ( this.m_Map[_x][_y] != null )
+          {
+            if ( !this.m_Map[_x][_y].through )
+            {
+              this.m_Map[_x][_y].draw( this.pgFront, _x*BASE_SPRITE_SIZE, _y*BASE_SPRITE_SIZE );
+            }
+          }
+        }
+      }
+    }
+    {
+      this.pgBack = createGraphics( this.m_iMapWidth*BASE_SPRITE_SIZE, this.m_iMapHeight*BASE_SPRITE_SIZE );
+      
+      for ( let _y=0; _y<this.m_iMapHeight; _y++ )
+      {
+        for ( let _x=0; _x<this.m_iMapWidth; _x++ )
+        {
+          if ( this.m_Map[_x][_y] != null )
+          {
+            if ( this.m_Map[_x][_y].through )
+            {
+              this.m_Map[_x][_y].draw( this.pgBack, _x*BASE_SPRITE_SIZE, _y*BASE_SPRITE_SIZE );
+            }
+          }
+        }
+      }
+    }
+  }
+  
   //----------------------------------------------------------------------------------------
   // draw
   //----------------------------------------------------------------------------------------
@@ -220,6 +267,7 @@ class Stage
   {
     if ( bFront )
     {
+      /*
       for ( let _y=0; _y<this.m_iMapHeight; _y++ )
       {
         for ( let _x=0; _x<this.m_iMapWidth; _x++ )
@@ -232,9 +280,12 @@ class Stage
             }
           }
         }
-      }
-    } else
+      }*/
+      pg.image( this.pgFront, 0, 0 );
+    } 
+    else
     {
+      /*
       for ( let _y=0; _y<this.m_iMapHeight; _y++ )
       {
         for ( let _x=0; _x<this.m_iMapWidth; _x++ )
@@ -247,7 +298,8 @@ class Stage
             }
           }
         }
-      }
+      }*/
+      pg.image( this.pgBack, 0, 0 );
     }
   }
 }

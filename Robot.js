@@ -9,6 +9,7 @@ class Robot
   constructor( area )
   {
     this.x = 0;
+    this.px = 0;
     this.y = 0;
     this.sx = 0;
     this.sy = 0;
@@ -19,12 +20,15 @@ class Robot
     this.g_robotGoalLength = 200;
     this.area = area;
     this.SPEED = 3;
+    this.sndOn = false;
+    this.psndOn = false;
   }
 
   setup()
   {
     this.x = this.sx;
     this.y = this.sy;
+    this.px = this.x;
   }
 
   update()
@@ -50,7 +54,9 @@ class Robot
       mx = this.area.g_currentStage.g_robotGoalLength;
     }
 
-    //this.x = mx;
+    this.px = this.x;
+    this.psndOn = this.sndOn;
+    this.sndOn = false;
     if ( this.x > mx + this.SPEED )
     {
       this.x -= this.SPEED;
@@ -58,6 +64,19 @@ class Robot
     if ( this.x < mx - this.SPEED )
     {
       this.x += this.SPEED;
+    }
+    if( ( int(this.x) != int(this.px) ) || ( current_area==this.area && ( left || right ) ) )
+    {
+      this.sndOn = true;
+    }
+    
+    if( this.sndOn && !this.psndOn )
+    {
+      sndRobot.loop();
+    }
+    else if( !this.sndOn && this.psndOn )
+    {
+      sndRobot.stop();
     }
   }
 
