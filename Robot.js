@@ -65,7 +65,11 @@ class Robot
     {
       this.x += this.SPEED;
     }
-    if( ( int(this.x) != int(this.px) ) || ( current_area==this.area && ( left || right ) ) )
+    if( ( int(this.x) != int(this.px) ) || 
+      ( current_area==this.area && 
+       ( int(current_area.g_Player.x) != int(current_area.g_Player.oldx) ) && 
+      !( current_area.g_Player.state>=STATE_WARP_BEGIN1 && current_area.g_Player.state<=STATE_WARP_FINISH5 ) && 
+      ( left || right ) ) )
     {
       this.sndOn = true;
     }
