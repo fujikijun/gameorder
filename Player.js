@@ -764,7 +764,7 @@ class Player
         this.reset();
       } else
       {
-        return;
+        //return;
       }
     }
 
