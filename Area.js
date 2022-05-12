@@ -123,7 +123,8 @@ class Area
       this.pg.background( 0 );
     } else
     {
-      this.pg.background( 80, 128, 255 );
+      //this.pg.background( 80, 128, 255 );
+      this.pg.background( 36, 93, 255 );
     }
 
     for ( let i=0; i<g_vecCoin.length; i++ )

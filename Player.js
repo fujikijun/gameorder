@@ -60,7 +60,7 @@ class Player
     {
       let sp = new Sprites();
       this.vecSprites.push( sp );
-      sp.vecImage.push( this.getImage( this.imgPlayer, 0, 0) );
+      //sp.vecImage.push( this.getImage( this.imgPlayer, 0, 0) );
       sp.vecImage.push( this.getImage( this.imgPlayer, 1, 0) );
       sp.vecImage.push( this.getImage( this.imgPlayer, 2, 0) );
     }
@@ -154,6 +154,8 @@ class Player
     this.count = 0;
     this.goal = false;
 
+    enter = false;
+    penter = false;
     up=false; 
     down=false; 
     left=false; 

@@ -19,8 +19,9 @@ let g_vecCoin = [];
 let area = [];
 let current_area = null;
 let imgSprite;
-let up=false, down=false, left=false, right=false;
-let pup=false, pdown=false, pleft=false, pright=false;
+let up=false, down=false, left=false, right=false, enter = true, space = true;
+let pup=false, pdown=false, pleft=false, pright=false, penter = false, pspace = false;
+;
 let g_bPlay = false;
 
 let bgm;
@@ -62,11 +63,18 @@ function start()
 // key
 //------------------------------------------------------------------------------------------
 
+function mousePressed()
+{
+  let fs = fullscreen();
+  fullscreen( !fs );
+}
+
 function keyPressed()
 {  
   switch( key )
   {
   case ' ':
+    space = true;
     if ( mode == 0 )
     {
       mode = 1;
@@ -81,6 +89,7 @@ function keyPressed()
   {
   case ENTER:
     start();
+    enter = true;
     break;
   case RIGHT_ARROW:
     right = true;
@@ -101,6 +110,12 @@ function keyReleased()
 {
   switch( keyCode )
   {
+  case ' ':
+    space = false;
+    break;
+  case ENTER:
+    enter = false;
+    break;
   case RIGHT_ARROW:
     right = false;
     break;
@@ -294,9 +309,89 @@ function draw()
 
     pop();
   }
+
+  checkGamepads();
 }
 
 function windowResized() 
 { 
   resizeCanvas( windowWidth, windowHeight );
+}
+
+function checkGamepads()
+{  
+  penter = enter;
+  pspace = space;
+
+  let gamepadList = navigator.getGamepads();
+  for ( let i=0; i<gamepadList.length; i++ )
+  {
+    let gamepad = gamepadList[i];
+    if ( gamepad )
+    {
+      // space
+      if ( gamepad.buttons[3].pressed==true )
+      {
+        space = true;
+      } else
+      {
+        space = false;
+      }
+      // enter
+      if ( gamepad.buttons[1].pressed==true )
+      {
+        enter = true;
+      } else
+      {
+        enter = false;
+      }
+      // ←
+      if ( gamepad.buttons[14].pressed==true )
+      {
+        left = true;
+      } else
+      {
+        left = false;
+      }
+      // →
+      if ( gamepad.buttons[15].pressed==true )
+      {
+        right = true;
+      } else
+      {
+        right = false;
+      }
+      // ↓
+      if ( gamepad.buttons[13].pressed==true )
+      {
+        down = true;
+      } else
+      {
+        down = false;
+      }
+      // ↑
+      if ( gamepad.buttons[12].pressed==true || gamepad.buttons[2].pressed==true )
+      {
+        up = true;
+      } else
+      {
+        up = false;
+      }
+    }
+  }
+
+  if ( enter==true && penter==false )
+  {
+    start();
+  }
+  if ( space==true && pspace==false )
+  {
+    if ( mode == 0 )
+    {
+      mode = 1;
+    } else
+    {
+      mode = 0;
+    }
+  }
 }
